@@ -2,7 +2,29 @@ import { Entity } from 'draft-js';
 
 const getEntityId = (node) => {
   let entityId = undefined;
-  if (
+  if (node.nodeType === "span" && node.getAttribute("data-tagged-type") === "user") {
+    const entityConfig = {
+      id: node.getAttribute("data-tagged-id"),
+      identifier: node.getAttribute("data-identifier"),
+    }
+    entityId = Entity.__create(
+      'MENTION',
+      'IMMUTABLE',
+      entityConfig,
+    );
+  } else if (node.nodeType === "span" && node.getAttribute("data-tagged-type") === "hashtag") {
+    const entityConfig = {
+      id: node.getAttribute("data-tagged-id"),
+      identifier: node.getAttribute("data-identifier"),
+    }
+    entityId = Entity.__create(
+      'HASHTAG',
+      'IMMUTABLE',
+      entityConfig,
+    );
+  }
+
+  else if (
     node instanceof HTMLAnchorElement
   ) {
     const entityConfig = {};
