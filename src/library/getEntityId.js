@@ -2,7 +2,7 @@ import { Entity } from 'draft-js';
 
 const getEntityId = (node) => {
   let entityId = undefined;
-  if (node.nodeType === "span" && node.getAttribute("data-tagged-type") === "user") {
+  if (node instanceof HTMLSpanElement && node.getAttribute("data-tagged-type") === "user") {
     const entityConfig = {
       id: node.getAttribute("data-tagged-id"),
       identifier: node.getAttribute("data-identifier"),
@@ -12,7 +12,7 @@ const getEntityId = (node) => {
       'IMMUTABLE',
       entityConfig,
     );
-  } else if (node.nodeType === "span" && node.getAttribute("data-tagged-type") === "hashtag") {
+  } else if (node instanceof HTMLSpanElement && node.getAttribute("data-tagged-type") === "hashtag") {
     const entityConfig = {
       id: node.getAttribute("data-tagged-id"),
       identifier: node.getAttribute("data-identifier"),
@@ -22,11 +22,7 @@ const getEntityId = (node) => {
       'IMMUTABLE',
       entityConfig,
     );
-  }
-
-  else if (
-    node instanceof HTMLAnchorElement
-  ) {
+  } else if (node instanceof HTMLAnchorElement) {
     const entityConfig = {};
     if (node.dataset && node.dataset.mention !== undefined) {
       entityConfig.url = node.href;
